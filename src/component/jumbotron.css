@@ -1,0 +1,37 @@
+.jumbotron{
+    background-image:url(../images/ravi.jpg);
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size: 100 auto;
+    color:white;
+    text-decoration-color: white
+    
+}
+
+.jumbotronC{
+    background-image:url(../images/ravi2.jpg);
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size: 100 auto;
+    color:rgb(0, 0, 0);
+    height: 200px;
+    text-align: center;
+    text-decoration-color: black;
+    
+}
+
+.jumbotronA{
+    background-image:url(../images/ravi3.jpg);
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size: 100 auto;
+    color:rgb(204, 24, 228);
+    height:200px;
+    text-align: center;
+    text-decoration-style: wavy;
+    text-decoration-color: black
+    
+}
+.display-4{
+    color: white
+}
