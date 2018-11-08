@@ -32,7 +32,7 @@ export default class Event extends Component {
       if(mm<10){
           mm='0'+mm;
       } 
-      var newDate = dd+'-'+mm+'-'+yyyy;
+      var newDate = mm+'-'+dd+'-'+yyyy;
       this.props.history.push(`/EventPage/${newDate}`)
     })
   }

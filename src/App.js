@@ -16,6 +16,7 @@ import Clock from './component/Clock';
 import TodoApp from './component/Todo';
 import WrappedNormalLoginForm from './component/WrappedNormalLoginForm.jsx'
 import WrappedRegistrationForm from './component/WrappedRegistrationForm.jsx'
+import CreateEvent from './component/CreateEvent.jsx';
 const hist = createBrowserHistory()
 //>
            
@@ -33,9 +34,10 @@ class App extends Component {
             <Route path='/About' component={About} key={1} />
             <Route path='/Contact' component={Contact} key={2} />
             <Route path='/Event' component={Event} key={3} />>
-            <Route path='/EventPage/:id' component={EventPage} key={4} />>
+            <Route path='/EventPage/:date' component={EventPage} key={4} />>
             <Route path='/WrappedNormalLoginForm' component={WrappedNormalLoginForm} key={4} />
             <Route path='/WrappedRegistrationForm' component={WrappedRegistrationForm} key={5}/>
+            <Route path='/CreateEvent/:date' component={CreateEvent} key={5}/>
             
           </Switch>
         </Router>
