@@ -4,6 +4,25 @@ import Navbar from './Navbar.jsx'
 import Footer from './Footer.jsx'
 import Jumbotron from './Jumbotron.jsx'
 
+
+//import { Menu, Dropdown, Icon } from 'antd';
+//import 'antd/dist/antd.css';
+
+//const menu = (
+ // <Menu>
+   // <Menu.Item>
+    //  <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">joban</a>
+   // </Menu.Item>
+   // <Menu.Item>
+    //  <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">ravi</a>
+    //</Menu.Item>
+    //<Menu.Item>
+    //  <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">manjot</a>
+   // </Menu.Item>
+ // </Menu>
+//);
+
+
 const qs = require('query-string');
 
 export default class Home extends Component {
@@ -24,11 +43,11 @@ export default class Home extends Component {
             the the reactjs.its really very intresting. i like it.
             its fast .we can make big application using reactjs by dividing code into simple step.
           </p>
+               
         </div>
+
         <Footer/>
-        <Link to={'/Login'} >
-            Go to Login
-        </Link>
+        
       </div>
     );
   }

@@ -5,11 +5,15 @@ import Footer from "./Footer.jsx";
 import "antd/dist/antd.css";
 import { NavLink } from "react-router-dom";
 import firebase from "../firebase";
-import { Table, Button } from "antd";
+//import { Table, Button } from "antd";
+import { Table, Input, Button, Popconfirm, Form } from 'antd';
 
 const database = firebase.database();
+//const FormItem = Form.Item;
 
 let data = [];
+//const EditableContext = React.createContext();
+
 // const data = [{
 //     key: '1',
 //     eventName: 'ravi',
@@ -36,12 +40,18 @@ let data = [];
 //     eventDate:'22-10-2018'
 //   }];
 
+
+
+
+
+
 export default class EventPage extends Component {
   
   state = {
     filteredInfo: null,
     sortedInfo: null,
-    data:[]
+    data:[],
+    
   };
 
   componentWillMount(){
@@ -49,11 +59,26 @@ export default class EventPage extends Component {
       if(snapshot.exists()){
         this.setState({
           data:Object.values(snapshot.toJSON())
+          //key:Object.values(snapshot.toJSON())
         })
       }
     })
   }
   
+  componentDidMount() {
+    database.ref('events/').on('value', snapshot => {
+      const newList = this.state.data;
+      newList.push({
+        eventId: snapshot.key,
+        //title: snapshot.val().title,
+        //genre: snapshot.val().genre
+      });
+      this.setState({
+        data: newList
+      });
+      console.log('test', JSON.stringify(newList))
+    });
+  }
 
   handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -84,6 +109,38 @@ export default class EventPage extends Component {
     });
   };
 
+ // DeleteEvent(){
+  
+     //let index = this.state.products.indexOf(data);
+       //this.state.data.splice(index, 1);
+      // this.setState(this.state.data)
+
+    
+  //};
+removeEvent=(eventId)=>{
+  let event=this.state.data[eventId];
+  return firebase.database().ref('/events').child('eventId').remove();
+  this.state.data.splice(eventId,1);
+  this.setState({data:this.state.data})
+}
+
+  handleDelete = (key) => {
+    {console.log('key')}
+
+    const dataSource = [...this.state.data];
+    this.setState({ data: data.filter(item => item.key !== key) });
+   
+  }
+
+
+  UpdateEvent=()=>{
+    this.setState({
+
+    })
+  }
+
+
+
   render() {
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
@@ -94,10 +151,10 @@ export default class EventPage extends Component {
         dataIndex: "eventName",
         key: "eventName",
         filters: [
-          { text: "ravi", value: "Joe" },
-          { text: "mandeep", value: "Jim" }
+          { text: "ravi", value: "Google" },
+          { text: "mandeep", value: "Microsoft" }
         ],
-        filteredValue: filteredInfo.name || null,
+        filteredValue: filteredInfo.eventName || null,
         onFilter: (value, record) => record.eventName.includes(value),
         sorter: (a, b) => a.eventName.length - b.eventName.length,
         sortOrder: sortedInfo.columnKey === "eventName" && sortedInfo.order
@@ -169,6 +226,21 @@ export default class EventPage extends Component {
         sorter: (a, b) => a.eventSeatNumbers.length - b.eventSeatNumbers.length,
         sortOrder: sortedInfo.columnKey === "eventSeatNumbers" && sortedInfo.order
       },
+      {
+        title: 'operation',
+        dataIndex: 'operation',
+        render: (text, eventId) => {
+          return (
+            this.state.data.length >= 1
+              ? (
+                
+                <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(eventId)}>
+                  <a href="javascript:;">Delete</a>
+                </Popconfirm>
+              ) : null
+          );
+        },
+      },
 
 
 
@@ -199,8 +271,14 @@ export default class EventPage extends Component {
         <div>
           <NavLink to={`/CreateEvent/${this.props.match.params.date}`}>
             <Button> Create Event</Button>
+            
           </NavLink>
         </div>
+        <div className="container" style={{textAlign:"left",msTextAutospace:"initial"}}>
+        <Button onclick={()=>{this.DeleteEvent()}}>Delete Events</Button>
+        <Button onclick={()=>{this.UpadteEvent()}}>Update Events</Button>
+          </div>
+       
       </div>
     );
   }

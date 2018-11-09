@@ -10,7 +10,8 @@ import About from './component/About.jsx';
 import Contact from './component/Contact.jsx'
 import Event from './component/Event.jsx'
 import EventPage from './component/EventPage.jsx'
-import Login  from './component/Login.jsx';
+import Messenger from './component/Messenger';
+//import Login  from './component/Login.jsx';
 //import { Scene, Stack, Actions, ActionConst } from "react-native-router-flux";
 import Clock from './component/Clock';
 import TodoApp from './component/Todo';
@@ -38,6 +39,7 @@ class App extends Component {
             <Route path='/WrappedNormalLoginForm' component={WrappedNormalLoginForm} key={4} />
             <Route path='/WrappedRegistrationForm' component={WrappedRegistrationForm} key={5}/>
             <Route path='/CreateEvent/:date' component={CreateEvent} key={5}/>
+            <Route path='/Messenger' component={Messenger} key={5}/>
             
           </Switch>
         </Router>
