@@ -11,7 +11,7 @@ import { Table, Input, Button, Popconfirm, Form } from 'antd';
 const database = firebase.database();
 //const FormItem = Form.Item;
 
-let data = [];
+let dataSource = [];
 //const EditableContext = React.createContext();
 
 // const data = [{
@@ -50,7 +50,7 @@ export default class EventPage extends Component {
   state = {
     filteredInfo: null,
     sortedInfo: null,
-    data:[],
+    dataSource:[],
     
   };
 
@@ -58,7 +58,7 @@ export default class EventPage extends Component {
     database.ref('/events').orderByChild('eventDate').equalTo(this.props.match.params.date).on('value',(snapshot)=>{
       if(snapshot.exists()){
         this.setState({
-          data:Object.values(snapshot.toJSON())
+          dataSource:Object.values(snapshot.toJSON())
           //key:Object.values(snapshot.toJSON())
         })
       }
@@ -67,14 +67,19 @@ export default class EventPage extends Component {
   
   componentDidMount() {
     database.ref('events/').on('value', snapshot => {
-      const newList = this.state.data;
+      const newList = this.state.dataSource;
       newList.push({
-        eventId: snapshot.key,
-        //title: snapshot.val().title,
-        //genre: snapshot.val().genre
+        showId: snapshot.key,
+        eventAddress:snapshot.val().eventAddress,
+        eventCompany:snapshot.val().eventCompany,
+        eventDate:snapshot.val().eventDate,
+        eventGuest:snapshot.val().eventGuest,
+        eventName:snapshot.val().eventName,
+        eventSeatNumbers:snapshot.val().eventSeatNumbers
+        
       });
       this.setState({
-        data: newList
+        dataSource: newList
       });
       console.log('test', JSON.stringify(newList))
     });
@@ -109,28 +114,28 @@ export default class EventPage extends Component {
     });
   };
 
- // DeleteEvent(){
-  
-     //let index = this.state.products.indexOf(data);
-       //this.state.data.splice(index, 1);
-      // this.setState(this.state.data)
+DeleteEvent(){
 
-    
-  //};
-removeEvent=(eventId)=>{
-  let event=this.state.data[eventId];
-  return firebase.database().ref('/events').child('eventId').remove();
-  this.state.data.splice(eventId,1);
-  this.setState({data:this.state.data})
+let index = this.state.dataSource.indexOf(dataSource);
+this.state.dataSource.splice(index, 1);
+this.setState(this.state.dataSource)
+
+
+};
+removeEvent=()=>{
+let dataindex=this.state.dataSource.indexOf(dataSource);
+
+this.state.dataSource.splice(dataindex,1);
+this.setState({dataSource:this.state.dataSource})
+firebase.database().ref().child('events/'+dataindex+'/').remove();
 }
 
-  handleDelete = (key) => {
-    {console.log('key')}
+handleDelete = (key) => {
+{console.log('key')}
 
-    const dataSource = [...this.state.data];
-    this.setState({ data: data.filter(item => item.key !== key) });
-   
-  }
+const dataSource = [...this.state.dataSource];
+this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+}
 
 
   UpdateEvent=()=>{
@@ -142,6 +147,7 @@ removeEvent=(eventId)=>{
 
 
   render() {
+    const { dataSource } = this.state;
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
@@ -229,15 +235,18 @@ removeEvent=(eventId)=>{
       {
         title: 'operation',
         dataIndex: 'operation',
-        render: (text, eventId) => {
+        key:'operation',
+        render: (text,record) => {
           return (
-            this.state.data.length >= 1
+            this.state.dataSource.length >= 1
               ? (
                 
-                <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(eventId)}>
+                
+                <Popconfirm   title="Sure to delete?" onConfirm={() => this.removeEvent(record.key)}>
                   <a href="javascript:;">Delete</a>
                 </Popconfirm>
-              ) : null
+              
+              ): null
           );
         },
       },
@@ -264,7 +273,7 @@ removeEvent=(eventId)=>{
           </div>
           <Table
             columns={columns}
-            dataSource={this.state.data}
+            dataSource={this.state.dataSource}
             onChange={this.handleChange}
           />
         </div>
@@ -274,7 +283,7 @@ removeEvent=(eventId)=>{
             
           </NavLink>
         </div>
-        <div className="container" style={{textAlign:"left",msTextAutospace:"initial"}}>
+        <div className="container">
         <Button onclick={()=>{this.DeleteEvent()}}>Delete Events</Button>
         <Button onclick={()=>{this.UpadteEvent()}}>Update Events</Button>
           </div>

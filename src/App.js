@@ -11,6 +11,7 @@ import Contact from './component/Contact.jsx'
 import Event from './component/Event.jsx'
 import EventPage from './component/EventPage.jsx'
 import Messenger from './component/Messenger';
+import Profile from './component/Profile';
 //import Login  from './component/Login.jsx';
 //import { Scene, Stack, Actions, ActionConst } from "react-native-router-flux";
 import Clock from './component/Clock';
@@ -40,6 +41,7 @@ class App extends Component {
             <Route path='/WrappedRegistrationForm' component={WrappedRegistrationForm} key={5}/>
             <Route path='/CreateEvent/:date' component={CreateEvent} key={5}/>
             <Route path='/Messenger' component={Messenger} key={5}/>
+            <Route path='/Profile' component={Profile} key={5}/>
             
           </Switch>
         </Router>
